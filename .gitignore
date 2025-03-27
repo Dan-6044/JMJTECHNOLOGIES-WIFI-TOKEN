@@ -1,0 +1,32 @@
+# Byte-compiled / compiled Python files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.env/
+
+# Django stuff
+*.log
+db.sqlite3
+/media/
+/static/
+
+# Migrations (optional: keep if tracking them)
+**/migrations/
+!/migrations/__init__.py
+
+# Secrets
+secrets.json
+config/settings/local.py
+.env
+
+# IDE/editor files
+.vscode/
+.idea/
+*.swp
+
+# OS-specific
+.DS_Store
+Thumbs.db
