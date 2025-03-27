@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/dash.css' %}">
+
+
+<!-- Modal to Edit Station -->
+<div class="modal fade" id="editStationModal" tabindex="-1" aria-labelledby="editStationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editStationModalLabel">Edit Station</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'edit_station' station.id %}" method="POST">
+                    {% csrf_token %}
+                    
+                    <!-- Station ID (hidden for editing purpose) -->
+                    <input type="hidden" name="station_id" id="station_id" value="{{ station.id }}">
+
+                    <!-- Station Code -->
+                    <div class="form-group">
+                        <label for="station_code" class="form-label">Station Code</label>
+                        <input type="text" class="form-control" id="station_code" name="station_code" value="{{ station.station_code }}" required>
+                    </div>
+
+                    <!-- Station Name -->
+                    <div class="form-group">
+                        <label for="station_name" class="form-label">Station Name</label>
+                        <input type="text" class="form-control" id="station_name" name="station_name" value="{{ station.station_name }}" required>
+                    </div>
+
+                    <!-- Location -->
+                    <div class="form-group">
+                        <label for="location" class="form-label">Location</label>
+                        <input type="text" class="form-control" id="location" name="location" value="{{ station.location }}" required>
+                    </div>
+
+                    <!-- Station Type -->
+                    <div class="form-group">
+                        <label for="station_type" class="form-label">Station Type</label>
+                        <select class="form-select" id="station_type" name="station_type" required>
+                            <option value="public" {% if station.station_type == 'public' %}selected{% endif %}>Public</option>
+                            <option value="private" {% if station.station_type == 'private' %}selected{% endif %}>Private</option>
+                        </select>
+                    </div>
+
+                    <!-- Status -->
+                    <div class="form-group">
+                        <label for="status" class="form-label">Status</label>
+                        <select class="form-select" id="status" name="status" required>
+                            <option value="active" {% if station.status == 'active' %}selected{% endif %}>Active</option>
+                            <option value="inactive" {% if station.status == 'inactive' %}selected{% endif %}>Inactive</option>
+                        </select>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="form-footer">
+                        <button type="submit" class="btn btn-primary btn-lg w-100">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function populateEditForm(stationId) {
+        // You can use AJAX to get the station data using the stationId, for example:
+        $.ajax({
+            url: '/station/get/' + stationId + '/',  // URL to fetch station details
+            method: 'GET',
+            success: function(data) {
+                // Populate the fields with data
+                $('#station_code').val(data.station_code);
+                $('#station_name').val(data.station_name);
+                $('#location').val(data.location);
+                $('#station_type').val(data.station_type);
+                $('#status').val(data.status);
+            }
+        });
+    }
+    
+</script>
+
+<!-- Bootstrap JS -->
+<!-- Bootstrap 5.1+ and Popper.js (required for Bootstrap's dropdowns, modals, etc.) -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
+
+
+{% endblock %}

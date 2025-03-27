@@ -1,0 +1,172 @@
+
+body {
+    font-family: 'Poppins', sans-serif; /* Change to your preferred font */
+    filter: grayscale(5%); /* Turns everything grey */
+}
+
+/* Parent Container: Compact size with box shadow */
+.compact-container {
+    width: 40%;
+    height: 98vh;
+    margin: auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content inside */
+    overflow: hidden; /* Prevent scrolling */
+}
+
+/* Static card: Fixed position at the top of container */
+.static-card {
+    background-color: #f8f9fa;
+    border: none;
+    position: sticky;
+    top: 10px;
+    z-index: 10;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+/* Add box-shadow when scrolling */
+.static-card.scrolled {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Hide scrollbar but allow scrolling */
+.scrollable-section {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-top: 10px;
+}
+
+/* Hide scrollbar for Webkit browsers (Chrome, Safari) */
+.scrollable-section::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for Firefox */
+.scrollable-section {
+    scrollbar-width: none;
+}
+
+/* Hide scrollbar for Internet Explorer/Edge */
+.scrollable-section {
+    -ms-overflow-style: none;
+}
+
+
+/* Plan Card */
+.plan-card {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 8px;
+    transition: box-shadow 0.3s ease-in-out;
+}
+/* Adjust spacing and font size in Column 1 */
+.plan-card .col-4 h6 {
+    font-size: 12px; /* Make plan name smaller */
+    margin-bottom: 20px; /* Add space between h6 and h5 */
+}
+
+/* Change Subscribe Button Color (Adjustable) */
+.subscribe-btn {
+    background-color: #0056b3; /* Default Blue */
+    border-color: #007bff;
+    color: white;
+}
+
+/* Adjust button hover effect */
+.subscribe-btn:hover {
+    background-color: #0056b3; /* Darker Blue */
+    border-color: #004999;
+    color: white;
+}
+
+/* M-Pesa Section Initially Hidden */
+.mpesa-card {
+    display: none; /* Initially hidden */
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out; /* Smooth transition */
+}
+input.form-control {
+    height: 45px; /* Adjust height */
+    font-size: 16px; /* Adjust text size */
+    padding: 10px; /* Add padding for better spacing */
+}
+
+@media (max-width: 992px) {  /* Tablets */
+    .compact-container {
+        width: 70%; /* Increase width */
+        height: auto; /* Allow height to adjust */
+        padding: 15px; /* Reduce padding */
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .compact-container {
+        width: 90%; /* Adjust width for smaller screens */
+        height: auto;
+        padding: 10px;
+    }
+
+    /* Adjust static card */
+    .static-card {
+        top: 5px;
+        padding: 8px;
+    }
+
+    /* Ensure plan cards display in a row and reduce spacing */
+    .plan-card {
+        flex-wrap: nowrap; /* Keep items in a single row */
+        padding: 5px; /* Reduce padding */
+        justify-content: space-between; /* Ensure even spacing */
+        gap: 5px; /* Minimize space between columns */
+    }
+
+    /* Adjust column sizes to fit in a row */
+    .plan-card .col-4 {
+        width: auto; /* Allow natural width */
+        text-align: left; /* Align text properly */
+        padding: 2px; /* Reduce padding */
+        font-size: 12px; /* Adjust font size */
+    }
+    .plan-card .col-4 h6 {
+        font-size: 12px;
+        margin-bottom: 20px;
+        word-wrap: break-word;
+        white-space: normal;
+        max-width: 100px; /* Prevent excessive width */
+    }
+    
+    .plan-card .col-8 {
+        width: auto; /* Allow flexibility */
+        text-align: left;
+        padding: 2px;
+        font-size: 12px;
+    }
+
+    /* Reduce spacing for subscribe button */
+    .subscribe-btn {
+        width: auto; /* Allow it to fit within the row */
+        padding: 8px; /* Reduce padding */
+        font-size: 12px; /* Adjust font size */
+        margin-left: 5px; /* Reduce gap */
+    }
+
+    /* Adjust input fields */
+    input.form-control {
+        height: 35px;
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    /* Scrollable section adjustments */
+    .scrollable-section {
+        max-height: 280px;
+        padding-top: 5px;
+    }
+}

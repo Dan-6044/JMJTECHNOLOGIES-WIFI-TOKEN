@@ -1,0 +1,170 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/page.css' %}">
+
+<div class="container compact-container py-3">
+    <div class="card p-3 shadow-none static-card" id="staticCard">
+        <h5 class="text-primary text-center mb-1">Connect to Internet</h5>
+        <p class="small text-center mb-3">Enter voucher code to access the internet.</p>
+
+        <input type="text" class="form-control form-control-sm mb-2" placeholder="Voucher Number">
+        <button class="btn btn-success btn-sm w-100">Connect</button>
+
+        <p class="text-center small mt-3">Need help? Call/Whats App <span class="text-danger fw-bold">0790758406</span></p>
+    </div>
+
+    <div class="row mt-3 scrollable-section">
+        {% for plan in plans %}
+        <div class="col-12 mb-2">
+            <div class="card plan-card d-flex flex-row p-2 align-items-center">
+                <div class="col-4 text-start">
+                    <h6 class="text-uppercase fw-bold">{{ plan.name }}</h6>
+                    <h5 class="text-warning mb-1">KES {{ plan.price }}</h5>
+                </div>
+                
+                <div class="col-4 text-start small">
+                    <p class="mb-1">⏳ {{ plan.duration }}</p>
+                    <p class="mb-1">📱 Devices: {{ plan.devices }}</p>
+                    <p class="mb-1">🕒 Validity: {{ plan.validity }}</p>
+                </div>
+                
+                <div class="col-4 text-end">
+                    <button class="btn btn-sm subscribe-btn"
+                    data-name="{{ plan.name }}" 
+                    data-price="{{ plan.price }}" 
+                    data-duration="{{ plan.duration }}" 
+                    data-devices="{{ plan.devices }}" 
+                    data-validity="{{ plan.validity }}">
+                    Subscribe</button>
+                </div>
+                
+            </div>
+        </div>
+        {% endfor %}
+
+         <!-- Connect with M-Pesa Section -->
+            <div class="card p-3 shadow-none static-card mt-3 mb-6" id="mpesaCard">
+                <h4 class="text-dark text-center mb-1">Login with M-Pesa SMS / Mpesa Transation Code</h5>
+                <p class="small text-center mb-9">Please paste the M-Pesa SMS or M-Pesa Transation Code to connect to the internet.</p>
+            
+                <input type="text" class="form-control form-control-sm mb-3" placeholder="TCP51RTXHD Confirmed. Ksh120.00 sent to JM technologies.....">
+               <button class="btn btn-success btn-sm w-100">Connect With M-pesa</button>
+            
+                <p class="text-center small mt-3">Need help? Call/WhatsApp <span class="text-danger fw-bold">0790758406</span></p>
+            </div>
+    </div>
+</div>
+
+<!-- M-Pesa Payment Popup -->
+<div id="mpesaModal" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content p-3 text-center">
+            <h5 class="fw-bold">M-Pesa Payment</h5>
+
+            <!-- Subscription Plan Details -->
+            <div class="bg-light p-2 rounded mb-3">
+                <p class="mb-1"><strong>Plan:</strong> <span id="planName">-</span></p>
+                <p class="mb-1"><strong>Amount:</strong> KES <span id="planAmount">-</span></p>
+                <p class="mb-1"><strong>Duration:</strong> <span id="planDuration">-</span></p>
+                <p class="mb-1"><strong>Devices:</strong> <span id="planDevices">-</span></p>
+                <p class="mb-1"><strong>Validity:</strong> <span id="planValidity">-</span></p>
+            </div>
+
+            <!-- M-Pesa Number Input -->
+            <label for="mpesaNumber" class="form-label small">Enter your M-Pesa number (start with 254...)</label>
+            <input type="text" id="mpesaNumber" class="form-control mb-2" placeholder="2547XXXXXXXX">
+
+            <button id="payBtn" class="btn btn-success w-100">Pay Now</button>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="{% static 'js/scroll.js' %}"></script>
+<script>
+    document.addEventListener("scroll", function () {
+        let card = document.getElementById("staticCard");
+        if (window.scrollY > 50) {
+            card.classList.add("scrolled");
+        } else {
+            card.classList.remove("scrolled");
+        }
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Select all subscribe buttons
+        document.querySelectorAll(".subscribe-btn").forEach(button => {
+            button.addEventListener("click", function () {
+                // Get plan details from button data attributes
+                const name = this.getAttribute("data-name");
+                const price = this.getAttribute("data-price");
+                const duration = this.getAttribute("data-duration");
+                const devices = this.getAttribute("data-devices");
+                const validity = this.getAttribute("data-validity");
+    
+                // Update modal with plan details
+                document.getElementById("planName").innerText = name;
+                document.getElementById("planAmount").innerText = price;
+                document.getElementById("planDuration").innerText = duration;
+                document.getElementById("planDevices").innerText = devices;
+                document.getElementById("planValidity").innerText = validity;
+    
+                // Show modal
+                new bootstrap.Modal(document.getElementById("mpesaModal")).show();
+            });
+        });
+    });
+    
+</script>
+<script>
+    document.getElementById("payBtn").addEventListener("click", function () {
+        let phone_number = document.getElementById("mpesaNumber").value;
+        let amount = document.getElementById("planAmount").textContent;  // Fetch amount from popup
+        let plan_name = document.getElementById("planName").textContent;
+    
+        fetch("/process_mpesa_payment/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCookie("csrftoken") // Ensure CSRF token is included
+            },
+            body: JSON.stringify({
+                phone_number: phone_number,
+                amount: amount,
+                plan_name: plan_name
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                alert("M-Pesa STK Push sent! Check your phone to enter M-Pesa PIN.");
+            } else {
+                alert("Payment request failed. Try again.");
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    });
+    
+    // Function to Get CSRF Token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== "") {
+            let cookies = document.cookie.split(";");
+            for (let i = 0; i < cookies.length; i++) {
+                let cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + "=")) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    
+
+</script>
+{% endblock %}

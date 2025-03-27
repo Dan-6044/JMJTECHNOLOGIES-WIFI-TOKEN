@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/dash.css' %}">
+
+
+<!-- 🔹 Top Navbar -->
+<nav class="navbar px-3 navbar-light fixed-top  shadow">
+    <img src="{% static 'images/favicon.png' %}" alt="Logo" class="ms-3" width="50">
+    <span class="navbar-brand">JMJTECHNOLOGIES ADMIN</span>
+    <div class="d-flex align-items-center">
+        <div class="dropdown">
+            <button class="btn p-0 border-0 rounded-circle" type="button" data-bs-toggle="dropdown">
+                <img src="{% if profile.profile_picture %}{{ profile.profile_picture.url }}{% else %}{% static 'images/avatar.png' %}{% endif %}" 
+                    alt="Profile" 
+                     class="rounded-circle border border-secondary" 
+                     width="35" height="35">
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-lg p-3" style="width: 340px; left: auto; right: 0;">
+                <li><a class="dropdown-item text-start" href="#">My Profile</a></li>
+                <li><a class="dropdown-item text-start" href="#">My Account</a></li>
+                <hr class="mx-auto" style="width: 90%;">
+                <a href="{% url 'logout' %}" class="btn btn-primary text-danger" style="width: 90%;">Logout</a>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="d-flex">
+    <nav class="sidebar  text-dark  p-3">
+        <h4 class="text-center head ">JMJTECHNOLOGIES</h4>
+        
+        <!-- Dashboard Section -->
+        <h6 class="text-uppercase mt-3 text-secondary">Dashboard</h6>
+        <ul class="nav flex-column">
+            <li class="nav-item my-1 {% if request.path == '/admin_panel/' %}active{% endif %}">
+                <a class="nav-link d-flex align-items-center" href="{% url 'admin_panel' %}">
+                    <i class="fas fa-home me-2"></i> Home
+                </a>
+            </li>
+            
+            <li class="nav-item my-1">
+                <a class="nav-link  d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#stationsMenu">
+                    <span><i class="fas fa-wifi"></i> Stations</span> 
+                    <i class="fas fa-chevron-right rotate-icon"></i>
+                </a>
+                <div class="collapse" id="stationsMenu">
+                    <a href="#" class="nav-link ms-3 text-white">View Stations</a>
+                    <a href="#" class="nav-link ms-3 text-white">Add Station</a>
+                </div>
+            </li>
+            <li class="nav-item my-1">
+                <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#clientsMenu">
+                    <span><i class="fas fa-users"></i> Clients</span> 
+                    <i class="fas fa-chevron-right rotate-icon"></i>
+                </a>
+                <div class="collapse" id="clientsMenu">
+                    <a href="#" class="nav-link ms-3 text-white">View Clients</a>
+                    <a href="#" class="nav-link ms-3 text-white">Add Client</a>
+                </div>
+            </li>
+            <li class="nav-item my-1">
+                <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#hotspotsMenu">
+                    <span><i class="fas fa-map-marker-alt"></i> Hotspots</span> 
+                    <i class="fas fa-chevron-right rotate-icon"></i>
+                </a>
+                <div class="collapse" id="hotspotsMenu">
+                    <a href="#" class="nav-link ms-3 text-white">View Hotspots</a>
+                    <a href="#" class="nav-link ms-3 text-white">Add Hotspot</a>
+                </div>
+            </li>
+            <li class="nav-item my-1">
+                <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#transactionsMenu">
+                    <span><i class="fas fa-money-bill"></i> Transactions</span> 
+                    <i class="fas fa-chevron-right rotate-icon"></i>
+                </a>
+                <div class="collapse" id="transactionsMenu">
+                    <a href="#" class="nav-link ms-3 text-white">View Transactions</a>
+                </div>
+            </li>
+            <li class="nav-item my-1">
+                <a class="nav-link text-white" href="#notifications"> <i class="fas fa-bell"></i> Notifications</a>
+            </li>
+            <li class="nav-item my-1">
+                <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#reportsMenu">
+                    <span><i class="fas fa-chart-bar"></i> Reports & Analytics</span> 
+                    <i class="fas fa-chevron-right rotate-icon"></i>
+                </a>
+                <div class="collapse" id="reportsMenu">
+                    <a href="#" class="nav-link ms-3 text-white">View Reports</a>
+                </div>
+            </li>
+            <li class="nav-item my-1">
+                <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#billingMenu">
+                    <span><i class="fas fa-file-invoice-dollar"></i> Billings & Invoices</span> 
+                    <i class="fas fa-chevron-right rotate-icon"></i>
+                </a>
+                <div class="collapse" id="billingMenu">
+                    <a href="#" class="nav-link ms-3 text-white">View Invoices</a>
+                </div>
+            </li>
+            <li class="nav-item my-1">
+                <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#accessMenu">
+                    <span><i class="fas fa-key"></i> Access Control</span> 
+                    <i class="fas fa-chevron-right rotate-icon"></i>
+                </a>
+                <div class="collapse" id="accessMenu">
+                    <a href="#" class="nav-link ms-3 text-white">Manage Access</a>
+                </div>
+            </li>
+        </ul>
+
+        <!-- Account Options Section -->
+        <h6 class="text-uppercase mt-4 text-secondary">Account Options</h6>
+        <ul class="nav flex-column">
+            <li class="nav-item my-1">
+                <a class="nav-link text-white" href="#profile"> <i class="fas fa-user"></i> Profile Settings</a>
+            </li>
+            <li class="nav-item my-1">
+                <a class="nav-link text-danger" href="#logout"> <i class="fas fa-sign-out-alt"></i> Logout</a>
+            </li>
+        </ul>
+    </nav>
+
+
+    <div class="content flex-grow-1 p-4">
+        <h1> content goes here</h1>
+        
+    </div>
+    
+    
+</div>
+
+<script>
+    // Script to rotate chevron icons on collapse toggle
+    document.querySelectorAll('[data-bs-toggle="collapse"]').forEach(item => {
+        item.addEventListener('click', function () {
+            let icon = this.querySelector('.rotate-icon');
+            if (icon) {
+                icon.classList.toggle('rotate-down');
+            }
+        });
+    });
+</script>
+
+
+{% endblock %}

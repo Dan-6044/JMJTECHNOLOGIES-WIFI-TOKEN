@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.png' %}">
+    <title>{% block title %}JMJTECHNOLOGIES{% endblock %}</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <!-- Bootstrap ICONS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap-icons.min.css' %}">    
+        <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+     <!-- Leaflet CSS -->
+     <link rel="stylesheet" href="{% static 'css/leaflet.css' %}">
+     <!-- Font-awesome CSS -->
+     <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">     
+
+     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+
+      <script src="https://kit.fontawesome.com/YOUR_KIT_CODE.js" crossorigin="anonymous"></script>
+
+    {% block extra_css %}{% endblock %}
+    <style>
+       .container-fluid {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+    </style>
+</head>
+<body>
+   
+
+    <!-- Main Content -->
+    <main class="container-fluid py-2">
+        {% block content %}
+        <!-- Page-specific content goes here -->
+        {% endblock %}
+    </main>
+
+   
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/leaflet.js' %}"></script>
+
+    <!-- Include jQuery, DataTables & Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

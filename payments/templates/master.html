@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favico.png' %}">
+    <title>{% block title %}JMJTECHNOLOGIES{% endblock %}</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <!-- Bootstrap ICONS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap-icons.min.css' %}">    
+        <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+     <!-- Leaflet CSS -->
+     <link rel="stylesheet" href="{% static 'css/leaflet.css' %}">
+     <!-- Font-awesome CSS -->
+     <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
+
+     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+
+    {% block extra_css %}{% endblock %}
+    <style>
+       .container-fluid {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+
+    /* Apply Poppins font to the whole page */
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Apply different weights */
+h1 {
+    font-weight: 600; /* Bold */
+}
+
+p {
+    font-weight: 300; /* Light */
+}
+
+button {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+}
+
+}
+    </style>
+</head>
+<body>
+   
+
+    <!-- Main Content -->
+    <main class="container-fluid py-2">
+        {% block content %}
+        <!-- Page-specific content goes here -->
+        {% endblock %}
+    </main>
+
+   
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/leaflet.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

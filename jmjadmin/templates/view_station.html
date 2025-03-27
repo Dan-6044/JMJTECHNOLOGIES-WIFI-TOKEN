@@ -1,0 +1,322 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/dash.css' %}">
+
+
+<!-- 🔹 Top Navbar -->
+<nav class="navbar px-3 navbar-light fixed-top  shadow">
+    <img src="{% static 'images/favicon.png' %}" alt="Logo" class="ms-3" width="50">
+    <span class="navbar-brand">JMJTECHNOLOGIES ADMIN</span>
+    <div class="d-flex align-items-center">
+        <div class="dropdown">
+            <button class="btn p-0 border-0 rounded-circle" type="button" data-bs-toggle="dropdown">
+                <img src="{% if profile.profile_picture %}{{ profile.profile_picture.url }}{% else %}{% static 'images/avatar.png' %}{% endif %}" 
+                    alt="Profile" 
+                     class="rounded-circle border border-secondary" 
+                     width="35" height="35">
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-lg p-3" style="width: 340px; left: auto; right: 0;">
+                <li><a class="dropdown-item text-start" href="#">My Profile</a></li>
+                <li><a class="dropdown-item text-start" href="#">My Account</a></li>
+                <hr class="mx-auto" style="width: 90%;">
+                <a href="{% url 'logout' %}" class="btn btn-primary text-danger" style="width: 90%;">Logout</a>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="d-flex">
+    <nav class="sidebar  text-dark  p-3">
+        <h4 class="text-center head ">JMJTECHNOLOGIES</h4>
+        
+        <!-- Dashboard Section -->
+        <h6 class="text-uppercase mt-3 text-secondary">Dashboard</h6>
+        <ul class="nav flex-column">
+            <li class="nav-item my-1 {% if request.path == '/admin_panel/' %}active{% endif %}">
+                <a class="nav-link d-flex align-items-center" href="{% url 'admin_panel' %}">
+                    <i class="fas fa-home me-2"></i> Home
+                </a>
+            </li>
+            
+            <li class="nav-item my-1">
+                <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#stationsMenu">
+                    <span><i class="fas fa-wifi"></i> Stations</span> 
+                    <i class="fas fa-chevron-right rotate-icon"></i>
+                </a>
+                <div class="collapse {% if request.path == '/view_station/' or request.path == '/add_station/' %}show{% endif %}" id="stationsMenu">
+                    <a href="{% url 'view_station' %}" class="nav-link ms-3 text-white {% if request.path == '/view_station/' %}active{% endif %}">View Stations</a>
+                    <a href="{% url 'add_station' %}" class="nav-link ms-3 text-white {% if request.path == '/add_station/' %}active{% endif %}">Add Station</a>
+                </div>
+            </li>       
+            
+
+            <li class="nav-item my-1">
+                <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#clientsMenu">
+                    <span><i class="fas fa-users"></i> Clients</span> 
+                    <i class="fas fa-chevron-right rotate-icon"></i>
+                </a>
+                <div class="collapse" id="clientsMenu">
+                    <a href="#" class="nav-link ms-3 text-white">View Clients</a>
+                    <a href="#" class="nav-link ms-3 text-white">Add Client</a>
+                </div>
+            </li>
+            <li class="nav-item my-1">
+                <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#hotspotsMenu">
+                    <span><i class="fas fa-map-marker-alt"></i> Hotspots</span> 
+                    <i class="fas fa-chevron-right rotate-icon"></i>
+                </a>
+                <div class="collapse" id="hotspotsMenu">
+                    <a href="#" class="nav-link ms-3 text-white">View Hotspots</a>
+                    <a href="#" class="nav-link ms-3 text-white">Add Hotspot</a>
+                </div>
+            </li>
+            <li class="nav-item my-1">
+                <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#transactionsMenu">
+                    <span><i class="fas fa-money-bill"></i> Transactions</span> 
+                    <i class="fas fa-chevron-right rotate-icon"></i>
+                </a>
+                <div class="collapse" id="transactionsMenu">
+                    <a href="#" class="nav-link ms-3 text-white">View Transactions</a>
+                </div>
+            </li>
+            <li class="nav-item my-1">
+                <a class="nav-link text-white" href="#notifications"> <i class="fas fa-bell"></i> Notifications</a>
+            </li>
+            <li class="nav-item my-1">
+                <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#reportsMenu">
+                    <span><i class="fas fa-chart-bar"></i> Reports & Analytics</span> 
+                    <i class="fas fa-chevron-right rotate-icon"></i>
+                </a>
+                <div class="collapse" id="reportsMenu">
+                    <a href="#" class="nav-link ms-3 text-white">View Reports</a>
+                </div>
+            </li>
+            <li class="nav-item my-1">
+                <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#billingMenu">
+                    <span><i class="fas fa-file-invoice-dollar"></i> Billings & Invoices</span> 
+                    <i class="fas fa-chevron-right rotate-icon"></i>
+                </a>
+                <div class="collapse" id="billingMenu">
+                    <a href="#" class="nav-link ms-3 text-white">View Invoices</a>
+                </div>
+            </li>
+            <li class="nav-item my-1">
+                <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#accessMenu">
+                    <span><i class="fas fa-key"></i> Access Control</span> 
+                    <i class="fas fa-chevron-right rotate-icon"></i>
+                </a>
+                <div class="collapse" id="accessMenu">
+                    <a href="#" class="nav-link ms-3 text-white">Manage Access</a>
+                </div>
+            </li>
+        </ul>
+
+        <!-- Account Options Section -->
+        <h6 class="text-uppercase mt-4 text-secondary">Account Options</h6>
+        <ul class="nav flex-column">
+            <li class="nav-item my-1">
+                <a class="nav-link text-white" href="#profile"> <i class="fas fa-user"></i> Profile Settings</a>
+            </li>
+            <li class="nav-item my-1">
+                <a class="nav-link text-danger" href="#logout"> <i class="fas fa-sign-out-alt"></i> Logout</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="content flex-grow-1 p-4">
+        <h1 class="station-heading">Stations Details</h1>
+
+        
+        <div class="card mb-3">
+            <div class="card-header bg-light py-2">
+                <i class="fas fa-table me-1"></i> Stations Data Table
+            </div>
+            <div class="card-body p-2">
+                <div class="table-responsive">
+                    <table id="stationTable" class="table table-striped table-sm table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="text-center">Station Code</th>
+                                <th class="text-center">Station Name</th>
+                                <th class="text-center">Location</th>
+                                <th class="text-center">Station Type</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for station in stations %}
+                            <tr>
+                                <td>{{ station.station_id }}</td>
+                                <td>{{ station.station_name }}</td>
+                                <td>{{ station.location }}</td>
+                                <td>{{ station.station_type|title }}</td>
+                                <td>
+                                    <span class="badge {% if station.status == 'active' %}bg-success{% else %}bg-danger{% endif %}">
+                                        {{ station.status|default:"Unknown"|title }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <!-- Edit button (this will trigger the modal) -->
+                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editStationModal" 
+                                      onclick="populateEditForm({{ station.id }})">
+                                        Edit
+                                    </button>
+                                    
+
+                                    <a href="{% url 'delete_station' station.id %}" class="btn btn-sm btn-danger">Delete</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6" class="text-center">
+                                    Showing {{ stations.count }} entries
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>
+<script>
+    // Script to rotate chevron icons on collapse toggle
+    document.querySelectorAll('[data-bs-toggle="collapse"]').forEach(item => {
+        item.addEventListener('click', function () {
+            let icon = this.querySelector('.rotate-icon');
+            if (icon) {
+                icon.classList.toggle('rotate-down');
+            }
+        });
+    });
+</script>
+<!-- Include DataTables CSS and JS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+
+<!-- Initialize DataTables -->
+<script>
+    $(document).ready(function() {
+        $('#stationTable').DataTable({
+            "paging": true,                   // Enable pagination
+            "lengthChange": true,             // Enable entry selection (5, 10, 25, 50 rows per page)
+            "searching": true,                // Enable search filter
+            "ordering": true,                 // Enable sorting (Ascending/Descending)
+            "info": true,                     // Enable footer summary (Showing X to Y of Z entries)
+            "language": {
+                "lengthMenu": " _MENU_ Show entries",
+                "paginate": {
+                    "next": "Next",
+                    "previous": "Previous"
+                },
+                "info": "Showing _START_ to _END_ of _TOTAL_ entries"
+            },
+            "lengthMenu": [5, 10, 25, 50],    // Options for row selection
+            "pageLength": 10                  // Default number of rows per page
+        });
+    });
+</script>
+
+<!-- Modal to Edit Station -->
+<div class="modal fade " id="editStationModal" tabindex="-1" aria-labelledby="editStationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editStationModalLabel">Edit Station</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editStationForm" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="station_id" id="station_id">
+                    
+                    <!-- Station Code -->
+                    <div class="form-group">
+                        <label for="station_code" class="form-label">Station Code</label>
+                        <input type="text" class="form-control" id="station_code" name="station_code" required>
+                    </div>
+                
+                    <!-- Station Name -->
+                    <div class="form-group">
+                        <label for="station_name" class="form-label">Station Name</label>
+                        <input type="text" class="form-control" id="station_name" name="station_name" required>
+                    </div>
+                
+                    <!-- Location -->
+                    <div class="form-group">
+                        <label for="location" class="form-label">Location</label>
+                        <input type="text" class="form-control" id="location" name="location" required>
+                    </div>
+                
+                    <!-- Station Type -->
+                    <div class="form-group">
+                        <label for="station_type" class="form-label">Station Type</label>
+                        <select class="form-select" id="station_type" name="station_type" required>
+                            <option value="public">Public</option>
+                            <option value="private">Private</option>
+                        </select>
+                    </div>
+                
+                    <!-- Status -->
+                    <div class="form-group">
+                        <label for="status" class="form-label">Status</label>
+                        <select class="form-select" id="status" name="status" required>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                
+                    <!-- Submit Button -->
+                    <div class="form-footer">
+                        <button type="submit" class="btn btn-primary btn-lg w-100">Save Changes</button>
+                    </div>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function populateEditForm(stationId) {
+        if (!stationId) {
+            console.error('Invalid station ID:', stationId);
+            return;
+        }
+        
+        // Fetch station details via AJAX
+        $.ajax({
+            url: `/stations/${stationId}/`,  // Adjust if needed
+            method: 'GET',
+            success: function(data) {
+                // Populate the form fields with the retrieved data
+                $('#station_id').val(data.id);
+                $('#station_code').val(data.station_code);
+                $('#station_name').val(data.station_name);
+                $('#location').val(data.location);
+                $('#station_type').val(data.station_type);
+                $('#status').val(data.status);
+    
+                // Set the form action dynamically
+                $('#editStationForm').attr('action', `/edit_station/${stationId}/`);
+            },
+            error: function(err) {
+                console.log("Error fetching station data:", err);
+            }
+        });
+    }
+</script>
+
+
+
+{% endblock %}
