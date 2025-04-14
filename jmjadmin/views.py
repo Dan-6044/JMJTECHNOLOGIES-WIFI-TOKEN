@@ -26,7 +26,7 @@ def add_station(request):
             return redirect('add_station')
 
     form = StationForm()
-    return render(request, 'add_station.html', {'form': form})
+    return render(request, 'station.html', {'form': form})
 
 
 def view_station(request):
@@ -65,9 +65,20 @@ def delete_station(request, id):
         return redirect('view_station')  # Redirect to the station listing page after deletion
     return render(request, 'confirm_delete_station.html', {'station': station})
 
-@login_required
+
+
+from django.shortcuts import render, redirect
+
 def hotspots(request):
-    return render(request, 'buywifi/hotspots.html')
+    
+    return render(request, 'package.html')
+
+def view_hotspots(request):
+    
+    return render(request, 'package.html')
+
+
+
 
 @login_required
 def transactions(request):

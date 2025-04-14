@@ -42,7 +42,7 @@ h6 {
 }
 .sidebar {
     background-color:rgba(236, 232, 232, 0.603); /* Greyish background */
-    margin-top: 70px; /* Adjust this to match the navbar height */
+    margin-top: 60px; /* Adjust this to match the navbar height */
     height: calc(100vh - 60px); /* Full height minus navbar */
     overflow-y: auto; /* Allows scrolling if content is too long */
     

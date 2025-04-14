@@ -53,7 +53,16 @@
                     <a href="{% url 'add_station' %}" class="nav-link ms-3 text-white {% if request.path == '/add_station/' %}active{% endif %}">Add Station</a>
                 </div>
             </li>         
-            
+            <li class="nav-item my-1">
+                <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#packageMenu">
+                    <span><i class="fas fa-wifi"></i> Packages</span> 
+                    <i class="fas fa-chevron-right rotate-icon"></i>
+                </a>
+                <div class="collapse {% if request.path == '/view_hotspots/' or request.path == '/hotspots/' %}show{% endif %}" id="packageMenu">
+                    <a href="{% url 'view_hotspots' %}" class="nav-link ms-3 text-white {% if request.path == '/view_hotspots/' %}active{% endif %}">View Packages</a>
+                    <a href="{% url 'hotspots' %}" class="nav-link ms-3 text-white {% if request.path == '/hotspots/' %}active{% endif %}">Add Packages</a>
+                </div>
+            </li>
 
             <li class="nav-item my-1">
                 <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#clientsMenu">
@@ -65,16 +74,7 @@
                     <a href="#" class="nav-link ms-3 text-white">Add Client</a>
                 </div>
             </li>
-            <li class="nav-item my-1">
-                <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#hotspotsMenu">
-                    <span><i class="fas fa-map-marker-alt"></i> Hotspots</span> 
-                    <i class="fas fa-chevron-right rotate-icon"></i>
-                </a>
-                <div class="collapse" id="hotspotsMenu">
-                    <a href="#" class="nav-link ms-3 text-white">View Hotspots</a>
-                    <a href="#" class="nav-link ms-3 text-white">Add Hotspot</a>
-                </div>
-            </li>
+            
             <li class="nav-item my-1">
                 <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#transactionsMenu">
                     <span><i class="fas fa-money-bill"></i> Transactions</span> 
@@ -127,56 +127,76 @@
             </li>
         </ul>
     </nav>
-        <div class="content flex-grow-1 p-4">        
-                <div class="form-container mx-auto" style="max-width: 600px;">
-                    <h2 class="form-heading">Add Wi-Fi Station</h2>
-                    <form action="{% url 'add_station' %}" method="POST">
-                        <!-- CSRF token (for Django users) -->
-                        {% csrf_token %}
-                        
-                        <!-- Station Code -->
-                        <div class="form-group">
-                            <label for="station_id" class="form-label">Station Code</label>
-                            <input type="text" class="form-control" id="station_id" name="station_id" placeholder="Enter Station Code (e.g. M001 J002)" required>
-                        </div>
-            
-                        <!-- Station Name -->
-                        <div class="form-group">
-                            <label for="station_name" class="form-label">Station Name</label>
-                            <input type="text" class="form-control" id="station_name" name="station_name" placeholder="Enter Station Name(e.g. Kamkunji)" required>
-                        </div>
-            
-                        <!-- Location -->
-                        <div class="form-group">
-                            <label for="location" class="form-label">Location</label>
-                            <input type="text" class="form-control" id="location" name="location" placeholder="Enter Location (e.g., Street, City, Country)" required>
-                        </div>
-            
-                        <!-- Station Type -->
-                        <div class="form-group">
-                            <label for="station_type" class="form-label">Station Type</label>
-                            <select class="form-select" id="station_type" name="station_type" required>
-                                <option value="public">Public</option>
-                                <option value="private">Private</option>
-                            </select>
-                        </div>
-            
-                        <!-- Status -->
-                        <div class="form-group">
-                            <label for="status" class="form-label">Status</label>
-                            <select class="form-select" id="status" name="status" required>
-                                <option value="active">Active</option>
-                                <option value="inactive">Inactive</option>
-                            </select>
-                        </div>
-            
-                        <!-- Submit Button -->
-                        <div class="form-footer">
-                            <button type="submit" class="btn btn-primary btn-lg w-100">Add Station</button>
-                        </div>
-                    </form>
-                </div>      
+    <div class="content flex-grow-1 p-4">
+        <div class="form-container mx-auto" style="max-width: 600px;">
+            <h2 class="form-heading">Add MikroTik Package</h2>
+            <form action="{% url 'hotspots' %}" method="POST">
+                {% csrf_token %}
+    
+                <!-- Select Router -->
+                <div class="form-group">
+                    <label for="router" class="form-label">Select Router</label>
+                    <select class="form-select" id="router" name="router_id" required>
+                        {% for router in routers %}
+                        <option value="{{ router.id }}">{{ router.name }} ({{ router.location }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+    
+                <!-- Connection Type -->
+                <div class="form-group">
+                    <label for="connection_type" class="form-label">Connection Type</label>
+                    <select class="form-select" id="connection_type" name="connection_type" required>
+                        <option value="" disabled selected>Select Package Type</option>
+                        <option value="hotspot">Hotspot</option>
+                        <option value="pppoe">PPPoE</option>
+                    </select>
+                </div>
+                
+                <!-- Plan Name -->
+                <div class="form-group">
+                    <label for="plan_name" class="form-label">Plan Name</label>
+                    <input type="text" class="form-control" id="plan_name" name="plan_name" placeholder="e.g. Weekly 5GB" required>
+                </div>
+    
+                <!-- Price -->
+                <div class="form-group">
+                    <label for="price" class="form-label">Price (KES)</label>
+                    <input type="number" class="form-control" id="price" name="price" placeholder="e.g. 250" required>
+                </div>
+    
+                <!-- Data Amount -->
+                <div class="form-group">
+                    <label for="duration" class="form-label">Duration</label>
+                    <input type="text" class="form-control" id="duration" name="duration" placeholder="e.g. 5hrs, Unlimited" required>
+                </div>
+    
+                <!-- Number of Devices -->
+                <div class="form-group">
+                    <label for="device_limit" class="form-label">Max Devices</label>
+                    <input type="number" class="form-control" id="device_limit" name="device_limit"  placeholder="e.g. 2devices, 1device" required>
+                </div>
+
+                <!-- Validity -->
+                <div class="form-group">
+                    <label for="validity" class="form-label">Validity</label>
+                    <input type="text" class="form-control" id="validity" name="validity" placeholder="e.g. 7 Days, 30 Days" required>
+                </div>
+                    
+                <!-- Schedule -->
+                <div class="form-group">
+                    <label for="schedule" class="form-label">Schedule</label>
+                    <input type="text" class="form-control" id="schedule" name="schedule" placeholder="e.g. 7 Days, 1 Month" required>
+                </div>
+    
+                <!-- Submit -->
+                <div class="form-footer">
+                    <button type="submit" class="btn btn-primary btn-lg w-100">Create Package</button>
+                </div>
+            </form>
         </div>
+    </div>    
+    
 </div>
 
 <script>

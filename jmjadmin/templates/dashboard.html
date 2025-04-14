@@ -10,26 +10,39 @@
 
 
 <!-- 🔹 Top Navbar -->
-<nav class="navbar px-3 navbar-light fixed-top  shadow">
-    <img src="{% static 'images/favicon.png' %}" alt="Logo" class="ms-3" width="50">
-    <span class="navbar-brand">JMJTECHNOLOGIES ADMIN</span>
-    <div class="d-flex align-items-center">
-        <div class="dropdown">
-            <button class="btn p-0 border-0 rounded-circle" type="button" data-bs-toggle="dropdown">
-                <img src="{% if profile.profile_picture %}{{ profile.profile_picture.url }}{% else %}{% static 'images/avatar.png' %}{% endif %}" 
-                    alt="Profile" 
-                     class="rounded-circle border border-secondary" 
-                     width="35" height="35">
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end shadow-lg p-3" style="width: 340px; left: auto; right: 0;">
-                <li><a class="dropdown-item text-start" href="#">My Profile</a></li>
-                <li><a class="dropdown-item text-start" href="#">My Account</a></li>
-                <hr class="mx-auto" style="width: 90%;">
-                <a href="{% url 'logout' %}" class="btn btn-primary text-danger" style="width: 90%;">Logout</a>
-            </ul>
+<nav class="navbar navbar-expand-lg navbar-light fixed-top shadow px-3">
+    <a class="navbar-brand d-flex align-items-center" href="#">
+        <img src="{% static 'images/favicon.png' %}" alt="Logo" class="ms-3" width="50">
+        <span>JMJTECHNOLOGIES ADMIN</span>
+    </a>
+    
+    <!-- Toggler for Mobile -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Collapsable Navbar Items -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="d-flex ms-auto align-items-center">
+            <!-- Profile Dropdown -->
+            <div class="dropdown">
+                <button class="btn p-0 border-0 rounded-circle" type="button" data-bs-toggle="dropdown">
+                    <img src="{% if profile.profile_picture %}{{ profile.profile_picture.url }}{% else %}{% static 'images/avatar.png' %}{% endif %}" 
+                        alt="Profile" 
+                        class="rounded-circle border border-secondary" 
+                        width="35" height="35">
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow-lg p-3" style="width: 340px; left: auto; right: 0;">
+                    <li><a class="dropdown-item text-start" href="#">My Profile</a></li>
+                    <li><a class="dropdown-item text-start" href="#">My Account</a></li>
+                    <hr class="mx-auto" style="width: 90%;">
+                    <a href="#" class="btn btn-primary text-danger" style="width: 90%;">Logout</a>
+                </ul>
+            </div>
         </div>
     </div>
 </nav>
+
 
 
 <div class="d-flex">
@@ -47,12 +60,22 @@
             
             <li class="nav-item my-1 {% if request.path == '/view_station/' or request.path == '/add_station/' %}active{% endif %}">
                 <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#stationsMenu">
-                    <span><i class="fas fa-wifi"></i> Stations</span> 
+                    <span><i class="fas fa-map-marker-alt"></i> Stations</span> 
                     <i class="fas fa-chevron-right rotate-icon"></i>
                 </a>
                 <div class="collapse {% if request.path == '/view_station/' or request.path == '/add_station/' %}show{% endif %}" id="stationsMenu">
                     <a href="{% url 'view_station' %}" class="nav-link ms-3 text-white {% if request.path == '/view_stations/' %}active{% endif %}">View Stations</a>
                     <a href="{% url 'add_station' %}" class="nav-link ms-3 text-white {% if request.path == '/add_station/' %}active{% endif %}">Add Station</a>
+                </div>
+            </li>
+            <li class="nav-item my-1 {% if request.path == '/view_hotspots/' or request.path == '/hotspots/' %}active{% endif %}">
+                <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#packageMenu">
+                    <span><i class="fas fa-wifi"></i> Packages</span> 
+                    <i class="fas fa-chevron-right rotate-icon"></i>
+                </a>
+                <div class="collapse {% if request.path == '/view_hotspots/' or request.path == '/hotspots/' %}show{% endif %}" id="packageMenu">
+                    <a href="{% url 'view_hotspots' %}" class="nav-link ms-3 text-white {% if request.path == '/view_hotspots/' %}active{% endif %}">View Packages</a>
+                    <a href="{% url 'hotspots' %}" class="nav-link ms-3 text-white {% if request.path == '/hotspots/' %}active{% endif %}">Add Packages</a>
                 </div>
             </li>
             
@@ -67,16 +90,7 @@
                     <a href="#" class="nav-link ms-3 text-white">Add Client</a>
                 </div>
             </li>
-            <li class="nav-item my-1">
-                <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#hotspotsMenu">
-                    <span><i class="fas fa-map-marker-alt"></i> Hotspots</span> 
-                    <i class="fas fa-chevron-right rotate-icon"></i>
-                </a>
-                <div class="collapse" id="hotspotsMenu">
-                    <a href="#" class="nav-link ms-3 text-white">View Hotspots</a>
-                    <a href="#" class="nav-link ms-3 text-white">Add Hotspot</a>
-                </div>
-            </li>
+           
             <li class="nav-item my-1">
                 <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#transactionsMenu">
                     <span><i class="fas fa-money-bill"></i> Transactions</span> 

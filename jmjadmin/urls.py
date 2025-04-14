@@ -15,6 +15,7 @@ urlpatterns = [
     
     
     path('hotspots/', views.hotspots, name='hotspots'),
+    path('view_hotspots/', views.view_hotspots, name='view_hotspots'),
     path('transactions/', views.transactions, name='transactions'),
     path('notifications/', views.notifications, name='notifications'),
     path('reports/', views.reports, name='reports'),
